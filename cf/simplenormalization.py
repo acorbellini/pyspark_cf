@@ -4,7 +4,7 @@ import pyspark.sql.functions as F
 
 def normalize_data(train_df, feature_columns, other_columns=[]):
     train_df = train_df.select(["user_id", "user_id_2"] + feature_columns + other_columns)
-    train_df.show()
+    # train_df.show()
     ops = []
     ops_norm = []
     for f in feature_columns:

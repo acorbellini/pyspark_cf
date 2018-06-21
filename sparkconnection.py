@@ -5,12 +5,15 @@ from pyspark import SparkConf, SparkContext, SQLContext
 
 
 class SparkConnection:
-    def __init__(self, ip="local[*]", folds=5):
+    def __init__(self, ip="local[*]", dir_root="", folds=5):
         self._spark_ip = ip  # "192.168.240.10"
         if "local[*]" == ip:
             self._spark_url = ip
-            current_file = os.path.dirname(os.path.abspath(__file__))
-            self._dir_root = os.path.dirname(current_file)
+            if dir_root:
+                self._dir_root = dir_root
+            else:
+                current_file = os.path.dirname(os.path.abspath(__file__))
+                self._dir_root = os.path.dirname(current_file)
         else:
             self._spark_url = "spark://" + self._spark_ip + ":7077"
             self._dir_root = "hdfs://" + self._spark_ip

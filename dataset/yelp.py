@@ -54,20 +54,20 @@ popularity_metrics = [
 all_features = rating_features + social_features + social_popularity + geo_features
 
 test_features = {
-    "geo": geo_features,
+    # "geo": geo_features,
     "baseline": ["cosine_rating"],
-    "ratings": rating_features,
-    "plus_geo": geo_features + rating_features,
-    "home_sim": ["home_sim"],
-    "jaccard_business_distance": ["jaccard_business_distance"],
-    "jaccard_distance_cat": ["jaccard_distance_cat"],
-    "social_features": social_features,
-    "social_popularity": social_popularity,
-    "all_social": social_features + social_popularity,
-    # "cc_sim": ["cc_sim"],
-    "aa_pop_ratings": ["aa_pop_ratings"],
-    "aa_pop_tips": ["aa_pop_tips"],
-    "all_features": all_features
+    # "ratings": rating_features,
+    # "plus_geo": geo_features + rating_features,
+    # "home_sim": ["home_sim"],
+    # "jaccard_business_distance": ["jaccard_business_distance"],
+    # "jaccard_distance_cat": ["jaccard_distance_cat"],
+    # "social_features": social_features,
+    # "social_popularity": social_popularity,
+    # "all_social": social_features + social_popularity,
+    # # "cc_sim": ["cc_sim"],
+    # "aa_pop_ratings": ["aa_pop_ratings"],
+    # "aa_pop_tips": ["aa_pop_tips"],
+    # "all_features": all_features
 }
 
 extra_cols = ["usefulness", "usefulness_2",
@@ -159,12 +159,12 @@ class YelpDataset:
                            "likes")
 
         conn.write_parquet(business, "dataset/yelp_business_converted_" + filter_city)
-        # conn.write_parquet(business_categories, "dataset/yelp_business_categories_converted_" + filter_city)
-        # conn.write_parquet(users, "dataset/yelp_user_converted_" + filter_city)
-        # conn.write_parquet(checkins, "dataset/yelp_checkin_converted_" + filter_city)
-        # conn.write_parquet(tips, "dataset/yelp_tip_converted_" + filter_city)
-        # conn.write_parquet(ratings, "dataset/yelp_review_converted_" + filter_city)
-        # conn.write_parquet(social_graph, "dataset/social_graph_converted_" + filter_city)
+        conn.write_parquet(business_categories, "dataset/yelp_business_categories_converted_" + filter_city)
+        conn.write_parquet(users, "dataset/yelp_user_converted_" + filter_city)
+        conn.write_parquet(checkins, "dataset/yelp_checkin_converted_" + filter_city)
+        conn.write_parquet(tips, "dataset/yelp_tip_converted_" + filter_city)
+        conn.write_parquet(ratings, "dataset/yelp_review_converted_" + filter_city)
+        conn.write_parquet(social_graph, "dataset/social_graph_converted_" + filter_city)
         if create_distances:
             lat_and_long = business.select("business_id", "longitude", "latitude")
             business_distance = lat_and_long.crossJoin(f.broadcast(ren(lat_and_long))) \
